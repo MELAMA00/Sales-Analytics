@@ -14,6 +14,7 @@ function App() {
   const [salesData, setSalesData] = useState<SalesData[]>([]);
   const [filteredData, setFilteredData] = useState<SalesData[]>([]);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [currency, setCurrency] = useState<'USD' | 'EUR' | 'MAD'>('USD');
   
   // Filter states
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -108,21 +109,23 @@ function App() {
             selectedRegions={selectedRegions}
             selectedSalespeople={selectedSalespeople}
             dateRange={dateRange}
+            currency={currency}
             onCategoryChange={setSelectedCategories}
             onRegionChange={setSelectedRegions}
             onSalespersonChange={setSelectedSalespeople}
             onDateRangeChange={setDateRange}
+            onCurrencyChange={setCurrency}
             onClearFilters={clearFilters}
           />
         );
       case 'upload':
         return <UploadData onDataUpload={handleDataUpload} />;
       case 'reporting':
-        return <Reporting data={filteredData} />;
+        return <Reporting data={filteredData} currency={currency} />;
       case 'trends':
-        return <Trends data={filteredData} />;
+        return <Trends data={filteredData} currency={currency} />;
       case 'predictive':
-        return <PredictiveAnalytics data={filteredData} />;
+        return <PredictiveAnalytics data={filteredData} currency={currency} />;
       case 'settings':
         return <Settings />;
       default:
@@ -136,10 +139,12 @@ function App() {
           selectedRegions={selectedRegions}
           selectedSalespeople={selectedSalespeople}
           dateRange={dateRange}
+          currency={currency}
           onCategoryChange={setSelectedCategories}
           onRegionChange={setSelectedRegions}
           onSalespersonChange={setSelectedSalespeople}
           onDateRangeChange={setDateRange}
+          onCurrencyChange={setCurrency}
           onClearFilters={clearFilters}
         />;
     }

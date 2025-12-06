@@ -16,10 +16,12 @@ interface OverviewProps {
   selectedRegions: string[];
   selectedSalespeople: string[];
   dateRange: { start: string; end: string };
+  currency: 'USD' | 'EUR' | 'MAD';
   onCategoryChange: (categories: string[]) => void;
   onRegionChange: (regions: string[]) => void;
   onSalespersonChange: (salespeople: string[]) => void;
   onDateRangeChange: (range: { start: string; end: string }) => void;
+  onCurrencyChange: (currency: 'USD' | 'EUR' | 'MAD') => void;
   onClearFilters: () => void;
 }
 
@@ -32,10 +34,12 @@ const Overview: React.FC<OverviewProps> = ({
   selectedRegions,
   selectedSalespeople,
   dateRange,
+  currency,
   onCategoryChange,
   onRegionChange,
   onSalespersonChange,
   onDateRangeChange,
+  onCurrencyChange,
   onClearFilters
 }) => {
   const kpis = DataProcessor.calculateKPIs(filteredData);
@@ -82,10 +86,12 @@ const Overview: React.FC<OverviewProps> = ({
         selectedRegions={selectedRegions}
         selectedSalespeople={selectedSalespeople}
         dateRange={dateRange}
+        currency={currency}
         onCategoryChange={onCategoryChange}
         onRegionChange={onRegionChange}
         onSalespersonChange={onSalespersonChange}
         onDateRangeChange={onDateRangeChange}
+        onCurrencyChange={onCurrencyChange}
         onClearFilters={onClearFilters}
       />
 
@@ -96,6 +102,7 @@ const Overview: React.FC<OverviewProps> = ({
           value={kpis.totalSales}
           change={kpis.salesGrowth}
           format="currency"
+          currency={currency}
           icon={<DollarSign className="h-6 w-6" />}
         />
         <KPICard
@@ -103,6 +110,7 @@ const Overview: React.FC<OverviewProps> = ({
           value={kpis.totalProfit}
           change={5.2}
           format="currency"
+          currency={currency}
           icon={<TrendingUp className="h-6 w-6" />}
         />
         <KPICard
@@ -117,6 +125,7 @@ const Overview: React.FC<OverviewProps> = ({
           value={kpis.averageOrderValue}
           change={-1.3}
           format="currency"
+          currency={currency}
           icon={<Users className="h-6 w-6" />}
         />
       </div>
@@ -128,6 +137,7 @@ const Overview: React.FC<OverviewProps> = ({
             type="line"
             data={salesOverTimeChart}
             title="Sales Trend Over Time"
+            currency={currency}
             height={350}
           />
         </Suspense>
@@ -136,6 +146,7 @@ const Overview: React.FC<OverviewProps> = ({
             type="doughnut"
             data={categoryChart}
             title="Sales by Category"
+            currency={currency}
             height={350}
           />
         </Suspense>
@@ -147,6 +158,7 @@ const Overview: React.FC<OverviewProps> = ({
             type="bar"
             data={regionChart}
             title="Sales by Region"
+            currency={currency}
             height={300}
           />
         </Suspense>

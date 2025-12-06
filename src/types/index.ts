@@ -57,4 +57,5 @@ export interface FilterOptions {
   categories: string[];
   regions: string[];
   salespeople: string[];
+  currency: 'USD' | 'EUR' | 'MAD';
 }

@@ -39,12 +39,25 @@ interface ChartProps {
   };
   title: string;
   height?: number;
+  currency?: string;
+  valueFormat?: 'currency' | 'number';
 }
 
-const Chart: React.FC<ChartProps> = ({ type, data, title, height = 400 }) => {
+const Chart: React.FC<ChartProps> = ({ type, data, title, height = 400, currency = 'USD', valueFormat = 'currency' }) => {
   const isDark = typeof document !== 'undefined' && document.documentElement.classList.contains('dark');
   const axisColor = isDark ? '#CBD5E1' : '#334155';
   const gridColor = isDark ? 'rgba(148, 163, 184, 0.15)' : 'rgba(203, 213, 225, 0.5)';
+  const formatValue = (value: number) => {
+    if (valueFormat === 'currency') {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(value);
+    }
+    return new Intl.NumberFormat('en-US').format(value);
+  };
 
   const options: any = {
     responsive: true,
@@ -71,12 +84,7 @@ const Chart: React.FC<ChartProps> = ({ type, data, title, height = 400 }) => {
           ticks: {
             color: axisColor,
             callback: function(value: any) {
-              return new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-              }).format(value);
+              return formatValue(Number(value));
             },
           },
           grid: { color: gridColor },

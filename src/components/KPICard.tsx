@@ -7,9 +7,10 @@ interface KPICardProps {
   change?: number;
   format?: 'currency' | 'percentage' | 'number';
   icon?: React.ReactNode;
+  currency?: 'USD' | 'EUR' | 'MAD';
 }
 
-const KPICard: React.FC<KPICardProps> = ({ title, value, change, format = 'number', icon }) => {
+const KPICard: React.FC<KPICardProps> = ({ title, value, change, format = 'number', icon, currency = 'USD' }) => {
   const formatValue = (val: string | number) => {
     const numValue = typeof val === 'string' ? parseFloat(val) : val;
     
@@ -17,7 +18,7 @@ const KPICard: React.FC<KPICardProps> = ({ title, value, change, format = 'numbe
       case 'currency':
         return new Intl.NumberFormat('en-US', {
           style: 'currency',
-          currency: 'USD',
+          currency,
           minimumFractionDigits: 0,
           maximumFractionDigits: 0
         }).format(numValue);

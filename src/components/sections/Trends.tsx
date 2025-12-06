@@ -6,9 +6,10 @@ import { DataProcessor } from '../../utils/dataProcessor';
 
 interface TrendsProps {
   data: SalesData[];
+  currency: 'USD' | 'EUR' | 'MAD';
 }
 
-const Trends: React.FC<TrendsProps> = ({ data }) => {
+const Trends: React.FC<TrendsProps> = ({ data, currency }) => {
   const [selectedMetric, setSelectedMetric] = useState<'sales' | 'profit' | 'volume'>('sales');
   const [selectedPeriod, setSelectedPeriod] = useState<'daily' | 'weekly' | 'monthly'>('monthly');
 
@@ -94,6 +95,7 @@ const Trends: React.FC<TrendsProps> = ({ data }) => {
           type="line"
           data={salesOverTimeChart}
           title={`${selectedMetric.charAt(0).toUpperCase() + selectedMetric.slice(1)} Trend - ${selectedPeriod.charAt(0).toUpperCase() + selectedPeriod.slice(1)}`}
+          currency={currency}
           height={400}
         />
       </Suspense>
@@ -105,6 +107,7 @@ const Trends: React.FC<TrendsProps> = ({ data }) => {
             type="bar"
             data={quarterlyData}
             title="Quarterly Performance"
+            currency={currency}
             height={300}
           />
         </Suspense>
@@ -114,6 +117,7 @@ const Trends: React.FC<TrendsProps> = ({ data }) => {
             type="doughnut"
             data={categoryChart}
             title="Category Distribution"
+            currency={currency}
             height={300}
           />
         </Suspense>
@@ -124,6 +128,7 @@ const Trends: React.FC<TrendsProps> = ({ data }) => {
           type="bar"
           data={regionChart}
           title="Regional Performance Trends"
+          currency={currency}
           height={300}
         />
       </Suspense>

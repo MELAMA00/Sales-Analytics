@@ -9,10 +9,12 @@ interface FilterPanelProps {
   selectedRegions: string[];
   selectedSalespeople: string[];
   dateRange: { start: string; end: string };
+  currency: 'USD' | 'EUR' | 'MAD';
   onCategoryChange: (categories: string[]) => void;
   onRegionChange: (regions: string[]) => void;
   onSalespersonChange: (salespeople: string[]) => void;
   onDateRangeChange: (range: { start: string; end: string }) => void;
+  onCurrencyChange: (currency: 'USD' | 'EUR' | 'MAD') => void;
   onClearFilters: () => void;
 }
 
@@ -24,10 +26,12 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   selectedRegions,
   selectedSalespeople,
   dateRange,
+  currency,
   onCategoryChange,
   onRegionChange,
   onSalespersonChange,
   onDateRangeChange,
+  onCurrencyChange,
   onClearFilters
 }) => {
   // Collapsible state (minimize/expand), defaults to expanded
@@ -111,24 +115,38 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
       )}
 
       <div className={`${isOpen ? 'block' : 'hidden'}`}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4 sm:gap-6">
           {/* Date Range */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-slate-200 mb-2">Date Range</label>
-          <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-2">
-            <input
-              type="date"
-              value={dateRange.start}
-              onChange={(e) => onDateRangeChange({ ...dateRange, start: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <input
-              type="date"
-              value={dateRange.end}
-              onChange={(e) => onDateRangeChange({ ...dateRange, end: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+            <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-2">
+              <input
+                type="date"
+                value={dateRange.start}
+                onChange={(e) => onDateRangeChange({ ...dateRange, start: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              <input
+                type="date"
+                value={dateRange.end}
+                onChange={(e) => onDateRangeChange({ ...dateRange, end: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
           </div>
+
+          {/* Currency */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-slate-200 mb-2">Currency</label>
+            <select
+              value={currency}
+              onChange={(e) => onCurrencyChange(e.target.value as 'USD' | 'EUR' | 'MAD')}
+              className="w-full border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="USD">USD ($)</option>
+              <option value="EUR">EUR (Euro)</option>
+              <option value="MAD">MAD (DH)</option>
+            </select>
           </div>
 
           {/* Categories */}
